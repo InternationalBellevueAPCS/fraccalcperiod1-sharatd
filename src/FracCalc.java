@@ -8,14 +8,23 @@ public class FracCalc {
     public static void main(String[] args) 
     {
     	Scanner console = new Scanner(System.in);
-    	System.out.print("Please enter an equation using fractions if needed. Make sure to put underscore instead of space between "
-    			+ " numbers in a mixed number : ");
+    	System.out.println("Please enter an equation using fractions if needed. Make sure to put underscore instead of space between "
+    			+ " numbers in a mixed number. Enter EXIT to quit: ");
     	String str_input = console.nextLine();
-    	System.out.println(str_input);
-    	produceAnswer(str_input);
+    	if (str_input.equals("EXIT")) {
+    		System.out.println("Thank you for using this program!");
+    	}
+    	while (!(str_input.equals("EXIT"))) {
+    		String secondoperand = produceAnswer(str_input);
+    		System.out.println(secondoperand);
+    		System.out.println("Please enter an equation using fractions if needed. Make sure to put underscore instead of space between "
+        			+ " numbers in a mixed number. Enter EXIT to quit: ");
+    		str_input = console.nextLine();
+    		System.out.println(str_input);
         // TODO: Read the input from the user and call produceAnswer with an equation
         // Checkpoint 1: Create a Scanner, read one line of input, pass that input to produceAnswer, print the result.
         // Checkpoint 2: Accept user input multiple times.
+    	}
     }
     
     /**
@@ -25,10 +34,12 @@ public class FracCalc {
      * @return the result of the fraction after it has been calculated.
      *      Example: return ==> "1_1/4"
      */
-    public static String produceAnswer(String str_input)
+    public static String produceAnswer(String userinput)
     {
-    	String secondstring = str_input.substring(str_input.lastIndexOf(' ')+1);
-    	System.out.println(secondstring);
+    	String secondstring = userinput.substring(userinput.lastIndexOf(" ")+1);
+    	String secondwhole = userinput.substring(userinput.lastIndexOf(" ")+1, userinput.lastIndexOf("_"));
+    	String secondnumerator = userinput.substring(userinput.lastIndexOf("_")+1, userinput.lastIndexOf("/"));
+    	String seconddenominator = userinput.substring(userinput.lastIndexOf("/")+1);
         // TODO: Implement this function to produce the solution to the input
         // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
         // Checkpoint 2: Return the second operand as a string representing each part.
@@ -38,8 +49,7 @@ public class FracCalc {
         //               Note: Answer does not need to be reduced, but it must be correct.
         // Final project: All answers must be reduced.
         //               Example "4/5 * 1_2/4" returns "1_1/5".
-        
-        return secondstring;
+        return "whole:" + secondwhole + " " + "numerator:" + secondnumerator + " " + "denominator:" + seconddenominator;
     }
 
 
