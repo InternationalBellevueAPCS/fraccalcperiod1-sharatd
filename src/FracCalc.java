@@ -11,20 +11,22 @@ public class FracCalc {
     	System.out.println("Please enter an equation using fractions if needed. Make sure to put underscore instead of space between "
     			+ " numbers in a mixed number. Enter EXIT to quit: ");
     	String str_input = console.nextLine();
-    	if (str_input.equals("EXIT")) {
+    	/*if (str_input.equals("EXIT")) {
     		System.out.println("Thank you for using this program!");
     	}
     	while (!(str_input.equals("EXIT"))) {
-    		String secondoperand = produceAnswer(str_input);
-    		System.out.println(secondoperand);
-    		System.out.println("Please enter an equation using fractions if needed. Make sure to put underscore instead of space between "
+    	*/
+    	String secondoperand = produceAnswer(str_input);
+    		//System.out.println(secondoperand);
+    		/*System.out.println("Please enter an equation using fractions if needed. Make sure to put underscore instead of space between "
         			+ " numbers in a mixed number. Enter EXIT to quit: ");
     		str_input = console.nextLine();
     		System.out.println(str_input);
+    		*/
         // TODO: Read the input from the user and call produceAnswer with an equation
         // Checkpoint 1: Create a Scanner, read one line of input, pass that input to produceAnswer, print the result.
         // Checkpoint 2: Accept user input multiple times.
-    	}
+    	//}
     }
     
     /**
@@ -37,9 +39,36 @@ public class FracCalc {
     public static String produceAnswer(String userinput)
     {
     	String secondstring = userinput.substring(userinput.lastIndexOf(" ")+1);
-    	String secondwhole = userinput.substring(userinput.lastIndexOf(" ")+1, userinput.lastIndexOf("_"));
+    	String secondwhole;
+    	//Declares the second operand and the whole number within that operand
+    	if (!userinput.contains("_")) {
+    		secondwhole = secondstring;
+    		return (secondwhole);
+    	}
+    	//Makes whole number equal to second operand if there is no operator
+    	//Returns whole number
+    	else {
+    		secondwhole = userinput.substring(userinput.lastIndexOf(" ")+1, userinput.lastIndexOf("_"));
+    	}
+    	//Otherwise, the whole number is equal to the number between the space and "_"
     	String secondnumerator = userinput.substring(userinput.lastIndexOf("_")+1, userinput.lastIndexOf("/"));
     	String seconddenominator = userinput.substring(userinput.lastIndexOf("/")+1);
+    	//Declares the numerator and denominator in second operator
+    	if (!userinput.contains(secondwhole)) {
+    		secondnumerator = userinput.substring(userinput.lastIndexOf(" ")+1, userinput.lastIndexOf("/"));
+    		seconddenominator = userinput.substring(userinput.lastIndexOf("/")+1);
+    		return (secondnumerator + "/" + seconddenominator);
+    	//The numerator is the number before the operator and the denominator is the number after if there is no whole number
+    	//Return numerator/denominator
+    	}
+    	/*String firstnumerator = userinput.substring(userinput.indexOf("_") + 1, userinput.indexOf("/"));
+    	String firstdenominator = userinput.substring(userinput.indexOf("/") + 1, userinput.indexOf(" "));
+    	int finaldenominator = leastCommonMultiple(Integer.parseInt(firstdenominator), Integer.parseInt(seconddenominator));
+    	int finalnumerator = Integer.parseInt(firstnumerator) * (finaldenominator/Integer.parseInt(firstdenominator)) + Integer.parseInt(secondnumerator) * (finaldenominator/Integer.parseInt(seconddenominator));
+    	System.out.println(finalnumerator + "/" + finaldenominator);
+    	if (userinput.indexOf("_") != -1) {
+    	*/
+    	//}
         // TODO: Implement this function to produce the solution to the input
         // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
         // Checkpoint 2: Return the second operand as a string representing each part.
@@ -49,7 +78,8 @@ public class FracCalc {
         //               Note: Answer does not need to be reduced, but it must be correct.
         // Final project: All answers must be reduced.
         //               Example "4/5 * 1_2/4" returns "1_1/5".
-        return "whole:" + secondwhole + " " + "numerator:" + secondnumerator + " " + "denominator:" + seconddenominator;
+        return (secondstring);
+    	//return "whole:" + secondwhole + " " + "numerator:" + secondnumerator + " " + "denominator:" + seconddenominator;
     }
 
 
