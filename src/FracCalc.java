@@ -116,16 +116,92 @@ public class FracCalc {
   
     	
     }
-    public static String oneZero(String firststring, String secondstring, String operator) {
+    public static String oneZero(String firststring, String secondstring, String operator, String firstwhole, String firstnumerator, String firstdenominator,
+   		 String secondwhole,  String secondnumerator,  String seconddenominator) {
+    	int firstwholenum = 0;
+    	int firstnum = 0;
+    	int firstdenom = 0;
+    	int secondwholenum = 0;
+    	int secondnum = 0;
+    	int seconddenom = 0;
+    	int finalnum = 0;
+		int finalwhole = 0;
+		int lcm = 0;
+		int finaldenom = 0;
+    	System.out.println("inside fractions firstnumerator "+firstnumerator);
+    	System.out.println("inside fractions secondnumerator "+secondnumerator);
+    	System.out.println("inside fractions seconddenominator "+seconddenominator);
+    	if (!firstnumerator.equals(" ")) {
+    	 firstnum = Integer.parseInt(firstnumerator);
+     	System.out.println("inside fractions firstumerator "+firstnum);
+    	}
+    	if (!firstdenominator.equals(" ")) {
+    	 firstdenom = Integer.parseInt(firstdenominator);
+    	}
+    	if (!firstwhole.equals(" ")) {
+    	 firstwholenum = Integer.parseInt(firstwhole);
+    	}
+    	if (!secondnumerator.equals(" ")) {
+    	 secondnum = Integer.parseInt(secondnumerator);
+    	 System.out.println("inside fractions secondnumerator " + secondnum);
+    	}
+    	if (!seconddenominator.equals(" ")) {
+    	 seconddenom = Integer.parseInt(seconddenominator);
+    	 System.out.println("inside fractions denom " + seconddenom);
+    	}
+    	if (!secondwhole.equals(" ")) {
+    	 secondwholenum = Integer.parseInt(secondwhole);
+    	 System.out.println("inside fractions whole " + secondwholenum);
+    	}
+    	System.out.println(firstwhole + "," + secondwhole);
+    	// taking care of negative numbers
+    	if (!firstwhole.equals(" ")) {
+    		if (firstwholenum < 0) {
+    			firstwholenum *= -1;
+    		}
+    		// make mixed fraction into improper fraction
+    		firstnum = firstwholenum*firstdenom+firstnum;
+    		if (firstnumerator.equals(" ")) {
+    			firstnum = firstwholenum;
+    			firstdenom = 1;
+    			System.out.println("whole "+ firstnum+firstdenom);
+    		}
+    	}
     	if (firststring.equals("0")) {
     		//If the first operand is 0
     		if (operator.equals("+")) {
-    		//If operator is addition, return the other string
-    			return secondstring;
+    			int gcd = greatestCommonDivisor(secondnum, seconddenom);
+    	    	System.out.println(gcd);
+    		
+    	    	if (gcd != 1) {
+    	    		secondnum = secondnum/gcd;
+    	    		seconddenom = seconddenom/gcd;
+    	    	}
+    	    	if (finalwhole != 0) {
+    	        	//If the final whole number is not 0, return the mixed number
+    	        		return(secondwhole + "_" + secondnum + "/" + seconddenom);
+    	        }
+    	    	else {
+    	    		return( secondnum + "/" + seconddenom);
+    	    	}
     		}
     		else if (operator.equals("-")) {
     			//If operator is subtraction, return the negative form of other string
-    			return ("-" +  secondstring);
+    			int gcd = greatestCommonDivisor(secondnum, seconddenom);
+    	    	System.out.println(gcd);
+    		
+    	    	if (gcd != 1) {
+    	    		secondnum = secondnum/gcd;
+    	    		seconddenom = seconddenom/gcd;
+    	    	}
+    	    	if (finalwhole != 0) {
+    	        	//If the final whole number is not 0, return the mixed number
+    	        		return(secondwhole + "_" + secondnum + "/" + seconddenom);
+    	        }
+    	    	else {
+    	    		return( secondnum + "/" + seconddenom);
+    	    	}
+    		
     		}
     		else {
     		//If operator is multiplication or division, return the firststring, 0.
@@ -144,6 +220,7 @@ public class FracCalc {
     			return "DNE";
     		}
     	}
+    	
     }
     public static String bothWhole(String firststring, String secondstring, String operator) {
     	if (operator.equals("+")) {
@@ -255,30 +332,33 @@ public class FracCalc {
     		finaldenom = firstdenom * secondnum;
     	}
     		
-    	System.out.println(finalnum + "/" + finaldenom);
+    	System.out.println("finalnum:"+finalnum + "/" + finaldenom);
     	//If final number is improper fraction, make it into mixed number
     	if (finalnum/finaldenom > 1) {
     		finalwhole = finalnum/finaldenom;
     		finalnum = finalnum - finalwhole * finaldenom;
     		System.out.println(finalwhole + "_" + finalnum + "/" + finaldenom);
     	}
-    	if (finalwhole != 0) 
-    	//If the final whole number is not 0, return the mixed number
-    	{
-    		return(finalwhole + "_" + finalnum + "/" + finaldenom);
-    	}
-    	else 
-    	//Otherwise, simply return the final numerator over the final denominator
-    	{
-    		return( finalnum + "/" + finaldenom);
-    	}
     	
-    	/*int gcd = greatestCommonDivisor(finalnum, finaldenom);
+    	//else 
+    	//Otherwise, simply return the final numerator over the final denominator
+    	//{
+    		
+    	//}
+    	
+    	int gcd = greatestCommonDivisor(finalnum, finaldenom);
+    	System.out.println(gcd);
     	if (gcd != 1) {
     		finalnum = finalnum/gcd;
     		finaldenom = finaldenom/gcd;
-    	}*/
-    	
+    	}
+    	if (finalwhole != 0) {
+        	//If the final whole number is not 0, return the mixed number
+        		return(finalwhole + "_" + finalnum + "/" + finaldenom);
+        }
+    	else {
+    		return( finalnum + "/" + finaldenom);
+    	}
     	//return(" ");
     	/*if (firststring.contains("/")) {
     		firstnumerator = firststring.substring(firststring.indexOf(" ")+1, firststring.indexOf("/"));
@@ -324,7 +404,8 @@ public class FracCalc {
     	}
     	else if (firststring.equals("0") || secondstring.equals("0")) {
     		//If one of the operands equals zero, call the oneZero method and return the result
-    		String onezero = oneZero(firststring, secondstring, operator);
+    		String onezero = oneZero(firststring, secondstring, operator,firstwhole,  firstnumerator,  firstdenominator,
+    	    		 secondwhole,  secondnumerator,  seconddenominator);
     		return onezero;
     	}
     	
